@@ -4,10 +4,12 @@ import productRouter from "./api/product.js";
 import connectDB from "./infrastructure/db.js";
 import userRouter from "./api/user.js";
 import buyingRouter from "./api/buying.js";
+import cors from "cors";
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 connectDB();
 
