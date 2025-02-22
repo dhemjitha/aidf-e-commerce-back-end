@@ -1,5 +1,5 @@
 import express from 'express';
-import { createBuying, getAllBuyings, getAllBuyingsForProduct } from '../application/buying.js';
+import { createBuying, getAllBuyings, getAllBuyingsForProduct } from '../application/buying';
 
 const buyingRouter = express.Router();
 
