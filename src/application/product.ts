@@ -35,8 +35,6 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
         if (
             !product.name ||
             !product.brand ||
-            !product.rating ||
-            !product.reviews ||
             !product.image ||
             !product.price ||
             !product.description
@@ -47,8 +45,6 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
         await Product.create({
             name: product.name,
             brand: product.brand,
-            rating: parseFloat(product.rating),
-            reviews: parseInt(product.reviews),
             image: product.image,
             price: parseInt(product.price),
             description: product.description
