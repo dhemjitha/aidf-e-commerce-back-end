@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import Product from "../infrastructure/schemas/Product";
 import NotFoundError from "../domain/errors/not-found-error";
 import ValidationError from "../domain/errors/validation-error";
-import { CreateProductDTO } from "../domain/dtos/Product";
+import { CreateProductDTO } from "../domain/dtos/product"; 
 
 export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
