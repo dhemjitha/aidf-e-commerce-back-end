@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import Buying from "../infrastructure/schemas/Buying";
 import ValidationError from "../domain/errors/validation-error";
 import NotFoundError from "../domain/errors/not-found-error";
-import { CreateBuyingDTO } from "../domain/dtos/Buying";
+import { CreateBuyingDTO } from "../domain/dtos/buying"; 
 
 export const createBuying = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
