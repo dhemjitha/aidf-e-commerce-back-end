@@ -6,8 +6,11 @@ import userRouter from "./api/user";
 import buyingRouter from "./api/buying";
 import cors from "cors";
 import globalErrorHandlingMiddleware from "./api/middleware/global-error-handling-middleware";
+import { clerkMiddleware } from "@clerk/express";
 
 const app = express();
+
+app.use(clerkMiddleware());
 
 app.use(express.json());
 app.use(cors());

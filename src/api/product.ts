@@ -1,5 +1,7 @@
 import express from "express";
 import { getAllProducts, getProductById, createProduct, deleteProductById, updateProductById } from "../application/product";
+import { isAuthenticated } from "./middleware/authentication-middleware";
+import { isAdmin } from "./middleware/authorization-middleware";
 
 const productRouter = express.Router();
 
@@ -9,7 +11,7 @@ const productRouter = express.Router();
 // productRouter.delete("/:id", deleteProductById);
 // productRouter.put("/:id", updateProductById);
 
-productRouter.route("/").get(getAllProducts).post(createProduct);
-productRouter.route("/:id").get(getProductById).put(updateProductById).delete(deleteProductById);
+productRouter.route("/").get(getAllProducts).post(isAuthenticated, isAdmin, createProduct);
+productRouter.route("/:id").get(getProductById).put(isAuthenticated, isAdmin, updateProductById).delete(isAuthenticated, isAdmin, deleteProductById);
 
 export default productRouter;

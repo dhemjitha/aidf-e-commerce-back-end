@@ -2,20 +2,28 @@ import { Request, Response, NextFunction } from "express";
 import Buying from "../infrastructure/schemas/Buying";
 import ValidationError from "../domain/errors/validation-error";
 import NotFoundError from "../domain/errors/not-found-error";
+import { CreateBuyingDTO } from "../domain/dtos/Buying";
 
 export const createBuying = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const buying = req.body;
+        const buying = CreateBuyingDTO.safeParse(req.body);
 
-        if (!buying.productId || !buying.userId || !buying.checkoutDate) {
-            throw new ValidationError("Invalid buying data");
+        if(!buying.success){
+            throw new ValidationError(buying.error.message);
         }
 
+        //@ts-ignore
+        const user = req.auth;
+
         await Buying.create({
-            productId: buying.productId,
-            userId: buying.userId,
-            checkoutDate: buying.checkoutDate,
+            productId: buying.data.productId,
+            userId: user.userId,
+            quantity: buying.data.quantity,
+            shippingAddress: buying.data.shippingAddress,
+            mobileNumber: buying.data.mobileNumber,
+            checkoutDate: buying.data.checkoutDate
         });
+        
 
         res.status(201).send();
         return;

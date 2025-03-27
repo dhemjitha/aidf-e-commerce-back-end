@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import Product from "../infrastructure/schemas/Product";
 import NotFoundError from "../domain/errors/not-found-error";
 import ValidationError from "../domain/errors/validation-error";
+import { CreateProductDTO } from "../domain/dtos/Product";
 
 export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -30,24 +31,18 @@ export const getProductById = async (req: Request, res: Response, next: NextFunc
 
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const product = req.body;
+        const product = CreateProductDTO.safeParse(req.body);
 
-        if (
-            !product.name ||
-            !product.brand ||
-            !product.image ||
-            !product.price ||
-            !product.description
-        ) {
-            throw new ValidationError("Invalid product data");
+        if(!product.success){
+            throw new ValidationError(product.error.message);
         }
 
         await Product.create({
-            name: product.name,
-            brand: product.brand,
-            image: product.image,
-            price: parseInt(product.price),
-            description: product.description
+            name: product.data.name,
+            brand: product.data.brand,
+            image: product.data.image,
+            price: parseInt(product.data.price),
+            description: product.data.description,
         });
 
         res.status(201).send();
