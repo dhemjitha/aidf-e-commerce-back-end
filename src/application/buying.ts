@@ -4,9 +4,10 @@ import ValidationError from "../domain/errors/validation-error";
 import NotFoundError from "../domain/errors/not-found-error";
 import { CreateBuyingDTO } from "../domain/dtos/buying"; 
 
-export const createBuying = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createBuying = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const buying = CreateBuyingDTO.safeParse(req.body);
+        console.log(buying);
 
         if(!buying.success){
             throw new ValidationError(buying.error.message);
@@ -15,13 +16,17 @@ export const createBuying = async (req: Request, res: Response, next: NextFuncti
         //@ts-ignore
         const user = req.auth;
 
+        if (!user || !user.userId) {
+            throw new ValidationError("User authentication failed or user ID missing.");
+        }
+
         await Buying.create({
             productId: buying.data.productId,
             userId: user.userId,
             quantity: buying.data.quantity,
             shippingAddress: buying.data.shippingAddress,
             mobileNumber: buying.data.mobileNumber,
-            checkoutDate: buying.data.checkoutDate
+            checkoutDate: buying.data.checkoutDate,
         });
         
 

@@ -4,12 +4,11 @@ const BuyingSchema = new mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
-        required: true
+        required: true,
     },
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
+        type: String,
+        required: true,
     },
     quantity: {
         type: Number,
@@ -21,12 +20,12 @@ const BuyingSchema = new mongoose.Schema({
         required: true,
     },
     mobileNumber: {
-        type: String,
+        type: Number,
         required: true,
     },
     checkoutDate: {
         type: Date,
-        required: true
+        required: true,
     }
 });
 
