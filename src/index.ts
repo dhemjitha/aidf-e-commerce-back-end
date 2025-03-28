@@ -13,16 +13,7 @@ const app = express();
 app.use(clerkMiddleware());
 
 app.use(express.json());
-app.use(cors({
-    origin: [
-      'http://localhost:5173',  // Vite development server
-      'https://aidf-e-commerce-front-end.vercel.app',  // Your Vercel frontend deployment
-      'https://aidf-e-commerce-back-end.vercel.app',  // Your backend deployment if needed
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-  }));
+app.use(cors());
 
 connectDB();
 
