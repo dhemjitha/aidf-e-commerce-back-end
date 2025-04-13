@@ -62,3 +62,27 @@ export const getAllBuyings = async (req: Request, res: Response, next: NextFunct
         next(error);
     }
 }
+
+export const getAllBuyingProductsForUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        
+        //@ts-ignore
+        const user = req.auth;
+
+        if (!user || !user.userId) {
+            throw new ValidationError("User authentication failed or user ID missing.");
+        }
+
+        const userBuyings = await Buying.find({ userId: user.userId }).populate("productId");
+        
+        if (!userBuyings || userBuyings.length === 0) {
+            res.status(200).json([]);
+            return;
+        }
+
+        res.status(200).json(userBuyings);
+        return;
+    } catch (error) {
+        next(error);
+    }
+}
