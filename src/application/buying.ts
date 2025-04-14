@@ -86,3 +86,14 @@ export const getAllBuyingProductsForUser = async (req: Request, res: Response, n
         next(error);
     }
 }
+
+export const deleteBuying = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const buyingId = req.params.buyingId;
+        await Buying.findByIdAndDelete(buyingId);
+        res.status(200).send();
+        return;
+    } catch (error) {
+        next(error);
+    }
+}
